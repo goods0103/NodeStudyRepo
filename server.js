@@ -13,6 +13,8 @@ new MongoClient(url).connect().then((client)=>{
   console.log(err)
 })
 
+
+app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));  
 
 
@@ -22,9 +24,14 @@ app.get('/', (request, response) => {
 
 app.get('/list', async (req, res) => {
     let result = await db.collection('post').find().toArray();
-    console.log(result);
-    res.send(result)
+    res.render('list.ejs', {data : result});
 })
+
+// app.get('/list', async (req, res) => {
+//     let result = await db.collection('post').find().toArray();
+//     console.log(result);
+//     res.send(result)
+// })
 
 app.get('/about', (req, res) => {
     res.sendFile(__dirname + '/introduce.html')
