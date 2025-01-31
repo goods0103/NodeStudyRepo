@@ -38,6 +38,7 @@ app.post('/add', async (req, res) => {
       res.render('write.ejs')
     } catch (error) {
       res.send('에러남')
+      console.log('err');
     }
   }
 })
