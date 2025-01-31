@@ -15,23 +15,28 @@ new MongoClient(url).connect().then((client)=>{
 
 
 app.set('view engine', 'ejs')
-app.use(express.static(__dirname + '/public'));  
+app.use(express.static(__dirname + '/public'));
+app.use(express.json())
+app.use(express.urlencoded({extended:true})) 
 
 
 app.get('/', (request, response) => {
     response.send('ㅎㅇ')
 })
 
+app.get('/write', (request, response) => {
+  response.render('write.ejs')
+})
+
+app.post('/add', (req, res) => {
+  db.collection('post').insertOne({title: req.body.title, content: req.body.content})
+  res.render('write.ejs')
+})
+
 app.get('/list', async (req, res) => {
     let result = await db.collection('post').find().toArray();
     res.render('list.ejs', {data : result});
 })
-
-// app.get('/list', async (req, res) => {
-//     let result = await db.collection('post').find().toArray();
-//     console.log(result);
-//     res.send(result)
-// })
 
 app.get('/about', (req, res) => {
     res.sendFile(__dirname + '/introduce.html')

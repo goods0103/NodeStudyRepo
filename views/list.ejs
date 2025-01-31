@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="main.css" rel="stylesheet">
 </head>
 <body class="grey-bg">
-
+    <%- include('nav.ejs') %>
     <div class="white-bg">
+      <% for(var i =0; i<data.length; i++){ %>
       <div class="list-box">
         <h4><%= JSON.stringify(data[0].title) %></h4>
         <p><%= JSON.stringify(data[0].content) %></p>
       </div>
-      <div class="list-box">
-        <h4>글제목임</h4>
-        <p>글내용임</p>
-      </div>
+      <% } %>
     </div> 
   
   </body>
