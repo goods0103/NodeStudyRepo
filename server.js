@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express()
 const { MongoClient } = require('mongodb')
+const { ObjectId } = require('mongodb')
 
 let db
+let objId
 const url = 'mongodb+srv://jyjy301:lego4554**@learnmongo.uxkdd.mongodb.net/?retryWrites=true&w=majority&appName=LearnMongo'
 new MongoClient(url).connect().then((client) => {
   console.log('DB연결성공')
@@ -22,6 +24,12 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (request, response) => {
   response.send('ㅎㅇ')
+})
+
+app.get('/detail/:aa', async (req, res) => {
+  objId = req.params.aa;
+  var result = await db.collection('post').findOne({_id : new ObjectId(objId)})
+  res.render('detail.ejs', {data : result})
 })
 
 app.get('/write', (request, response) => {
@@ -51,3 +59,5 @@ app.get('/list', async (req, res) => {
 app.get('/about', (req, res) => {
   res.sendFile(__dirname + '/introduce.html')
 })
+
+
