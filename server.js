@@ -26,14 +26,38 @@ app.get('/', (request, response) => {
   response.send('ㅎㅇ')
 })
 
-app.get('/detail/:aa', async (req, res) => {
-  objId = req.params.aa;
-  var result = await db.collection('post').findOne({_id : new ObjectId(objId)})
-  res.render('detail.ejs', {data : result})
+app.get('/detail/:id', async (req, res) => {
+  try {
+    objId = req.params.id;
+    var result = await db.collection('post').findOne({ _id: new ObjectId(objId) })
+    if (result == null) {
+      res.status.send('해당 id의 글이 존재하지않습니다')
+    }
+    else{
+      res.render('detail.ejs', { data: result })
+    }
+  } catch (error) {
+
+  }
 })
 
 app.get('/write', (request, response) => {
   response.render('write.ejs')
+})
+
+app.get('/edit/:id', async (request, response) => {
+  try {
+  var result =  await db.collection('post').findOne({ _id: new ObjectId(request.params.id)}) 
+  console.log(result);
+  response.render('edit.ejs', { data : result})
+  } catch (error) {
+    
+  }
+})
+
+app.post('/edit2/:id', async (req, res) => {
+  await db.collection('post').updateOne({_id : req.params.id}, {$set: { title: res.body.title}})
+  db.collection('post').updateOne({_id : req.params.id}, {$set: { content: res.body.content}})
 })
 
 app.post('/add', async (req, res) => {

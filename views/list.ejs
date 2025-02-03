@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="main.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
 </head>
 <body class="grey-bg">
     <%- include('nav.ejs') %>
     <div class="white-bg">
       <% for(var i =0; i<data.length; i++){ %>
       <div class="list-box">
-        <h4><%= JSON.stringify(data[i].title) %></h4>
-        <p><%= JSON.stringify(data[i].content) %></p>
+        <h4>
+          <a href="/detail/<%= data[i]._id %>">
+            <%= data[i].title %>
+          </a>
+          <a href="/edit/<%= data[i]._id %>"">✏️</a>
+        </h4>
       </div>
       <% } %>
     </div> 
