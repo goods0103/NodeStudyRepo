@@ -16,22 +16,20 @@
             <%= data[i].title %>
           </a>
           <a href="/edit/<%= data[i]._id %>"">✏️</a>
-          <span class="delete">🗑️</span>
+          <span class="delete" data-id="<%= data[i]._id %>"">🗑️</span>
         </h4>
       </div>
       <% } %>
     </div>
     <script>
-      document.querySelectorAll('.delete')[0].addEventListener('click', function*(){
+      for(var i=0; i<'<%= data.length %>'; i++){
+        document.querySelectorAll('.delete')[i].addEventListener('click', function(e){
         //새로고침없이
-        fetch('/delete', {
-          method: 'delete',
-          headers: { 'Content-type' : 'application/json' },
-          body: data[1]
-        }
-
-        )
+        fetch('/delete?id='+ e.target.dataset.id, {
+          method: 'delete'
+        })
       })
+      }
     </script> 
   </body>
 </html>

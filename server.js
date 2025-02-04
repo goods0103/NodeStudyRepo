@@ -26,6 +26,12 @@ app.get('/', (request, response) => {
   response.send('ㅎㅇ')
 })
 
+app.delete('/delete', async (req, res) => {
+  console.log(req.query.id)
+  await db.collection('post').deleteOne({_id : new ObjectId(req.query.id)})
+  res.send('삭제완료')
+})
+
 app.get('/detail/:id', async (req, res) => {
   try {
     objId = req.params.id;
