@@ -16,10 +16,22 @@
             <%= data[i].title %>
           </a>
           <a href="/edit/<%= data[i]._id %>"">✏️</a>
+          <span class="delete">🗑️</span>
         </h4>
       </div>
       <% } %>
-    </div> 
-  
+    </div>
+    <script>
+      document.querySelectorAll('.delete')[0].addEventListener('click', function*(){
+        //새로고침없이
+        fetch('/delete', {
+          method: 'delete',
+          headers: { 'Content-type' : 'application/json' },
+          body: data[1]
+        }
+
+        )
+      })
+    </script> 
   </body>
 </html>

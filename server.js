@@ -2,7 +2,7 @@ const express = require('express');
 const app = express()
 const { MongoClient } = require('mongodb')
 const { ObjectId } = require('mongodb')
-
+const methodOverride = require('method-override')
 let db
 let objId
 const url = 'mongodb+srv://jyjy301:lego4554**@learnmongo.uxkdd.mongodb.net/?retryWrites=true&w=majority&appName=LearnMongo'
@@ -20,7 +20,7 @@ app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-
+app.use(methodOverride('_method')) 
 
 app.get('/', (request, response) => {
   response.send('ㅎㅇ')
@@ -56,8 +56,10 @@ app.get('/edit/:id', async (request, response) => {
 })
 
 app.post('/edit2/:id', async (req, res) => {
-  await db.collection('post').updateOne({_id : req.params.id}, {$set: { title: res.body.title}})
-  db.collection('post').updateOne({_id : req.params.id}, {$set: { content: res.body.content}})
+  var result = await db.collection('post').updateOne({ _id : new ObjectId(req.params.id) },
+  {$set : { title : req.body.title, content : req.body.content }})
+  res.redirect('/list')
+
 })
 
 app.post('/add', async (req, res) => {
