@@ -27,7 +27,7 @@ app.get('/', (request, response) => {
 })
 
 app.delete('/delete', async (req, res) => {
-  console.log(req.query.id)
+  //console.log(req.query.id)
   await db.collection('post').deleteOne({_id : new ObjectId(req.query.id)})
   res.send('삭제완료')
 })

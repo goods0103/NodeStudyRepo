@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="/main.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="/main.css" rel="stylesheet">
 </head>
+
 <body class="grey-bg">
-    <%- include('nav.ejs') %>
+  <%- include('nav.ejs') %>
     <div class="white-bg">
-      <% for(var i =0; i<data.length; i++){ %>
-      <div class="list-box">
-        <h4>
-          <a href="/detail/<%= data[i]._id %>">
-            <%= data[i].title %>
-          </a>
-          <a href="/edit/<%= data[i]._id %>"">✏️</a>
-          <span class="delete" data-id="<%= data[i]._id %>"">🗑️</span>
+      <% for(var i=0; i<data.length; i++){ %>
+        <div class="list-box">
+          <h4>
+            <a href="/detail/<%= data[i]._id %>">
+              <%= data[i].title %>
+            </a>
+            <a href="/edit/<%= data[i]._id %>"">✏️</a>
+          <span class=" delete" data-id="<%= data[i]._id %>"">🗑️</span>
         </h4>
       </div>
       <% } %>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
     <script>
-      for(var i=0; i<'<%= data.length %>'; i++){
-        document.querySelectorAll('.delete')[i].addEventListener('click', function(e){
-        //새로고침없이
-        fetch('/delete?id='+ e.target.dataset.id, {
-          method: 'delete'
+      for (var i = 0; i < '<%= data.length %>'; i++) {
+        document.querySelectorAll('.delete')[i].addEventListener('click', function (e) {
+          fetch('/delete?id=' + e.target.dataset.id, {
+            method: 'delete'
+          })
+            .then((r) => {
+              if (r.status == 200) {
+                return r.text()
+              } else {
+                //서버가 에러코드전송시 실행할코드
+              }
+            })
+            .then((result) => {
+              e.target.parentElement.parentElement.style.display ='none'
+              console.log(result)
+            }).catch((error) => {
+              //인터넷문제 등으로 실패시 실행할코드
+              console.log(error)
+            })
         })
-      })
       }
     </script> 
   </body>
